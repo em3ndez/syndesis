@@ -62,6 +62,11 @@ public final class DbMetaDataHelper {
         return db.fetchProcedures(meta, catalog, schemaPattern, procedurePattern);
     }
 
+    public ResultSet fetchFunctions(final String catalog,
+        final String schemaPattern, final String functionPattern) throws SQLException {
+        return db.fetchFunctions(meta, catalog, schemaPattern, functionPattern);
+    }
+
     Set<String> fetchTables(final String catalog,
         final String schemaPattern, final String tableNamePattern) throws SQLException {
         Set<String> tablesInSchema = new HashSet<>();

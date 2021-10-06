@@ -26,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import io.atlasmap.xml.inspect.XmlInspectionException;
+import io.atlasmap.xml.inspect.XmlInspectionService;
 import io.syndesis.common.model.DataShape;
 import io.syndesis.common.model.DataShapeKinds;
 import io.syndesis.common.model.action.Action;
@@ -59,7 +61,9 @@ public class SoapApiConnectorGeneratorExampleTest extends AbstractSoapExampleTes
 
     private static final Logger LOG = LoggerFactory.getLogger(SoapApiConnectorGeneratorExampleTest.class);
 
-    @ParameterizedTest(name = "{1}")
+    static final XmlInspectionService XML_INSPECTION_SVC = new XmlInspectionService();
+
+    @ParameterizedTest(name = "{0}")
     @MethodSource("parameters")
     public void shouldProvideInfo(final String path, final String specification) throws IOException {
 
@@ -96,15 +100,16 @@ public class SoapApiConnectorGeneratorExampleTest extends AbstractSoapExampleTes
         assertThat(actionsSummary.getActionCountByTags()).isNotEmpty();
     }
 
-    @ParameterizedTest(name = "{1}")
+    @ParameterizedTest(name = "{0}")
     @MethodSource("parameters")
-    public void shouldGenerateConnector(final String path, final String specification) throws IOException, SAXException {
+    public void shouldGenerateConnector(final String path, final String specification) throws IOException, SAXException, XmlInspectionException {
 
         final Connector connector = connectorGenerator.generate(SoapConnectorTemplate.SOAP_TEMPLATE, getConnectorSettings(specification));
 
         assertThat(connector).isNotNull();
         assertThat(connector.getName()).isNotEmpty();
         assertThat(connector.getDescription()).isNotEmpty();
+        assertThat(connector.getIcon()).startsWith("data:image");
 
         // assert summary
         final Optional<ActionsSummary> actionsSummary = connector.getActionsSummary();
@@ -161,7 +166,7 @@ public class SoapApiConnectorGeneratorExampleTest extends AbstractSoapExampleTes
         }
     }
 
-    private static void validateDataShape(DataShape inputDataShape) throws SAXException, IOException {
+    private static void validateDataShape(DataShape inputDataShape) throws SAXException, IOException, XmlInspectionException {
         // check whether the shape is not none
         if (inputDataShape.getKind() != DataShapeKinds.NONE) {
             assertThat(inputDataShape.getName()).isNotEmpty();
@@ -173,6 +178,8 @@ public class SoapApiConnectorGeneratorExampleTest extends AbstractSoapExampleTes
 
             // validate schemaset
             XmlSchemaTestHelper.validateSchemaSet(specification);
+
+            XML_INSPECTION_SVC.inspectSchema(specification);
         }
     }
 

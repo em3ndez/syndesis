@@ -27,6 +27,8 @@ public interface Db {
         String schema, String procedureName) throws SQLException;
     ResultSet fetchProcedures(DatabaseMetaData meta, String catalog,
         String schemaPattern, String procedurePattern) throws SQLException;
+    ResultSet fetchFunctions(DatabaseMetaData meta, String catalog,
+        String schemaPattern, String functionPattern) throws SQLException;
     String getAutoIncrementGrammar();
     String getName();
 }

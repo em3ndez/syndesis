@@ -47,7 +47,7 @@ public class KafkaMetaDataRetrieval extends ComponentMetadataRetrieval {
     private static final Logger LOG = LoggerFactory.getLogger(KafkaMetaDataRetrieval.class);
 
     static final CustomResourceDefinition KAFKA_CRD = new CustomResourceDefinitionBuilder()
-        .withApiVersion("apiextensions.k8s.io/v1beta1")
+        .withApiVersion("apiextensions.k8s.io/v1beta2")
         .withKind("CustomResourceDefinition")
         .withNewMetadata()
             .withName("kafkas.kafka.strimzi.io")
@@ -55,7 +55,7 @@ public class KafkaMetaDataRetrieval extends ComponentMetadataRetrieval {
         .withNewSpec()
             .withGroup("kafka.strimzi.io")
             .withScope("Namespaced")
-            .withVersion("v1beta1")
+            .withVersion("v1beta2")
             .withNewNames()
                 .withKind("Kafka")
                 .withListKind("KafkaList")
@@ -120,9 +120,6 @@ public class KafkaMetaDataRetrieval extends ComponentMetadataRetrieval {
     /**
      * For each Kafka resource found on Kubernetes, extract the listeners and
      * add them to the brokers list.
-     *
-     * @param brokers
-     * @param item
      */
     private static void processKafkaResource(List<PropertyPair> brokers, Kafka item) {
         //Extract an identifier of this broker
@@ -138,7 +135,6 @@ public class KafkaMetaDataRetrieval extends ComponentMetadataRetrieval {
 
     /**
      * Get the list of addresses for this connection and add it to the brokers list.
-     *
      * @param listener metadata for this broker
      * @param brokers  list where all brokers are going to be added
      * @param name     identifier of this broker

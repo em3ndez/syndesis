@@ -36,15 +36,12 @@ public final class ODataComponent extends ComponentProxyComponent implements ODa
 
     /**
      * These fields are populated using reflection by the HandlerCustomizer class.
-     *
      * The values are resolved then the appropriate setter called, while the original
      * key/value pairs are removed from the options map.
-     *
      * Note 1:
      * Should a property be secret then its raw value is the property placeholder and
      * the resolving process converts it accordingly hence the importance of doing it
      * this way rather than using the options map directly.
-     *
      * Note 2:
      * methodName not included as not required here but required later in the options map.
      */
@@ -173,7 +170,7 @@ public final class ODataComponent extends ComponentProxyComponent implements ODa
     }
 
     private Map<String, Object> bundleOptions(Map<String, Object> options) {
-        PropertyBuilder<Object> builder = new PropertyBuilder<Object>();
+        PropertyBuilder<Object> builder = new PropertyBuilder<>();
 
         for (Map.Entry<String, Object> option : options.entrySet()) {
             builder.propertyIfNotNull(option.getKey(), option.getValue());

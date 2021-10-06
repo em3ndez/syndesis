@@ -82,7 +82,7 @@ public class OpenShiftServiceImpl implements OpenShiftService {
     private static final Map<String, String> INTEGRATION_DEFAULT_LABELS = defaultLabels();
 
     public static final CustomResourceDefinition SYNDESIS_CRD = new CustomResourceDefinitionBuilder()
-        .withApiVersion("apiextensions.k8s.io/v1beta1")
+        .withApiVersion("apiextensions.k8s.io/v1beta2")
         .withKind("CustomResourceDefinition")
         .withNewMetadata()
             .withName("syndesises.syndesis.io")
@@ -90,7 +90,7 @@ public class OpenShiftServiceImpl implements OpenShiftService {
         .withNewSpec()
             .withGroup("syndesis.io")
             .withScope("Namespaced")
-            .withVersion("v1beta1")
+            .withVersion("v1beta2")
             .withNewNames()
                 .withKind("Syndesis")
                 .withListKind("SyndesisList")
@@ -692,8 +692,6 @@ public class OpenShiftServiceImpl implements OpenShiftService {
 
     /**
      * Checks if Excpetion can be retried and if retries are left.
-     * @param e
-     * @param retries
      */
     private static void checkRetryPolicy(KubernetesClientException e, int retries) {
         if (retries == 0) {
@@ -712,7 +710,7 @@ public class OpenShiftServiceImpl implements OpenShiftService {
     }
 
     static Map<String, String> defaultLabels() {
-        final HashMap<String, String> labels = new HashMap<String, String>();
+        final HashMap<String, String> labels = new HashMap<>();
         labels.put("syndesis.io/type", "integration");
         labels.put("syndesis.io/app", "syndesis");
 

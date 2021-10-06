@@ -50,6 +50,15 @@ public class DbStandard implements Db {
     }
 
     @Override
+    public ResultSet fetchFunctions(final DatabaseMetaData meta, final String catalog, final String schemaPattern, final String functionPattern)
+        throws SQLException {
+        return meta.getFunctions(
+            catalog,
+            adaptPattern(schemaPattern),
+            adaptPattern(functionPattern));
+    }
+
+    @Override
     public String getAutoIncrementGrammar() {
         return "NUMBER GENERATED ALWAYS AS IDENTITY";
     }

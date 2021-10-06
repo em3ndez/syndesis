@@ -73,7 +73,7 @@ public class AWSDDBMetadataRetrieval extends ComponentMetadataRetrieval {
     }
 
     protected Map<String, List<PropertyPair>> setupDefaultValues(Map<String, Object> properties) {
-        Map<String, List<PropertyPair>> res = new HashMap<String, List<PropertyPair>>();
+        Map<String, List<PropertyPair>> res = new HashMap<>();
 
         try {
             DescribeTableResult table = fetchTableDescription(properties);
@@ -100,11 +100,11 @@ public class AWSDDBMetadataRetrieval extends ComponentMetadataRetrieval {
 
             element.append('}');
 
-            List<PropertyPair> list = new ArrayList<PropertyPair>();
+            List<PropertyPair> list = new ArrayList<>();
             list.add(new PropertyPair(element.toString(), element.toString()));
             res.put("element", list);
 
-            list = new ArrayList<PropertyPair>();
+            list = new ArrayList<>();
             list.add(new PropertyPair(attributes.toString(), attributes.toString()));
             res.put("attributes", list);
 
@@ -127,16 +127,13 @@ public class AWSDDBMetadataRetrieval extends ComponentMetadataRetrieval {
 
     /**
      * Extract columns of query and result to create a data shape.
-     *
-     * @param properties
-     * @return
      */
     private static SyndesisMetadata adaptForDDB(final Map<String, Object> properties,
         Map<String, List<PropertyPair>> enrichedProperties) {
 
         Map<String, AttributeValue> element = Util.getAttributeValueMap("element", properties);
 
-        List<String> attributes = new ArrayList<String>();
+        List<String> attributes = new ArrayList<>();
         String optionAttributes = ConnectorOptions.extractOption(properties, "attributes", "");
         if (!optionAttributes.isEmpty()) {
             Splitter splitter = Splitter.on(',');
